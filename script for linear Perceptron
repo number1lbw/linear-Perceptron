@@ -1,0 +1,36 @@
+clear;close all;
+X_1=normrnd(5,2.3,[100,2]);%生成随机数据
+X_2=normrnd(-5,2.3,[100,2]);%(线性可分，需要线性不可分数据可将X_1均值改为-3)
+len=size(X_1,1);
+X_1=[ones(len,1),X_1];
+X_2=[ones(len,1),X_2];
+X_3=[-X_1;X_2];%生成规范化样本
+
+scatter(X_1(:,2),X_1(:,3));hold on;
+scatter(X_2(:,2),X_2(:,3));hold on;
+dim=size(X_1,2);
+w=[1,1,-1];%初始化w
+x=(-15:0.2:15);
+y=-(w(1)+w(2).*x)./w(3);%绘制初始直线
+plot(x,y);
+
+J=1;
+alpha=[0.002:0.0002:0.005];%学习率
+iterations=zeros(1,length(alpha));%迭代步数
+w_1=w;
+W=[];%记录不同学习率下的最终w
+for i=1:length(alpha)
+    while(any(X_3*w_1'<=0))%当没有错分样本时结束迭代
+        J=cost( X_3,w_1 );
+        w_1=w_1+alpha(i).*J_grad(X_3,w_1);%更新w
+        iterations(i)=iterations(i)+1;
+        if iterations(i)==500%限制最大迭代步数为500
+            break;
+        end
+    end
+     J=cost( X_3,w_1 );
+     y=-(w_1(1)+w_1(2).*x)./w_1(3);%画出最终直线
+     plot(x,y);hold on;
+     W=[W;w_1];
+     w_1=w;
+end
