@@ -1,0 +1,9 @@
+function [ grad_1 ] = J_grad( X,w )
+
+len=size(X,1);
+grad_1=zeros(1,length(w));
+for i=1:len
+    grad_1=grad_1+X(i,:).*(X(i,:)*w'<=0);
+end
+
+end
