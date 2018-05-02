@@ -1,0 +1,9 @@
+function [ J_1 ] = cost( X,w )
+
+J_1=0;
+len=size(X,1);
+for i=1:len
+    J_1=J_1-X(i,:)*w'.*(X(i,:)*w'<=0);
+end
+
+end
