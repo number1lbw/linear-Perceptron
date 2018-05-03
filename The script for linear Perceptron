@@ -1,4 +1,4 @@
-clear;close all;
+clear;close all;clc;
 X_1=normrnd(5,2.3,[100,2]);%生成随机数据
 X_2=normrnd(-5,2.3,[100,2]);%(线性可分，需要线性不可分数据可将X_1均值改为-3)
 len=size(X_1,1);
@@ -32,5 +32,8 @@ for i=1:length(alpha)
      y=-(w_1(1)+w_1(2).*x)./w_1(3);%画出最终直线
      plot(x,y);hold on;
      W=[W;w_1];
+     fprintf('第%d次实验：\n损失函数J=%f,权向量w=[%f,%f,%f],\n',i,J,w_1(1),w_1(2),w_1(3));
+     fprintf('学习率为%d,迭代步数为%f \n',alpha(i),iterations(i));
      w_1=w;
+     pause;
 end
